@@ -1,0 +1,3 @@
+{
+    "do_not_delete": ["aws_sagemaker_domain.main"]
+}
