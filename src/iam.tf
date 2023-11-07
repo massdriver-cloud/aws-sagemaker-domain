@@ -1,29 +1,28 @@
 resource "aws_iam_role" "sagemaker_execution" {
-  name = "${var.md_metadata.name_prefix}-execution"
+  name               = "${var.md_metadata.name_prefix}-execution"
   assume_role_policy = data.aws_iam_policy_document.sagemaker_assume_role.json
 
   managed_policy_arns = [
-    "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy",
     aws_iam_policy.sagemaker_execution.arn
   ]
 }
 
 data "aws_iam_policy_document" "sagemaker_execution" {
   statement {
-    sid = "PassRole"
-    effect = "Allow"
-    actions = ["iam:PassRole"]
+    sid       = "PassRole"
+    effect    = "Allow"
+    actions   = ["iam:PassRole"]
     resources = ["*"]
     condition {
-      test = "StringEquals"
+      test     = "StringEquals"
       variable = "iam:PassedToService"
-      values = ["sagemaker.amazonaws.com"]
+      values   = ["sagemaker.amazonaws.com"]
     }
   }
   statement {
-    sid = "ECRAccess"
-    effect = "Allow"
-    resources = ["arn:aws:ecr:${var.vpc.specs.aws.region}:763104351884:*"]
+    sid       = "ECRAccess"
+    effect    = "Allow"
+    resources = ["*"]
     actions = [
       "ecr:ListTagsForResource",
       "ecr:ListImages",
@@ -32,6 +31,7 @@ data "aws_iam_policy_document" "sagemaker_execution" {
       "ecr:GetLifecyclePolicy",
       "ecr:DescribeImageScanFindings",
       "ecr:GetLifecyclePolicyPreview",
+      "ecr:GetAuthorizationToken",
       "ecr:GetDownloadUrlForLayer",
       "ecr:BatchGetImage",
       "ecr:DescribeImages",
@@ -39,11 +39,11 @@ data "aws_iam_policy_document" "sagemaker_execution" {
     ]
   }
   statement {
-    sid = "CloudwatchLogsAccess"
+    sid    = "CloudwatchLogsAccess"
     effect = "Allow"
     resources = [
-            "arn:aws:logs:us-east-1:${data.aws_caller_identity.current.account_id}:log-group:/aws/sagemaker/**",
-          ]
+      "arn:aws:logs:${var.vpc.specs.aws.region}:${data.aws_caller_identity.current.account_id}:log-group:/aws/sagemaker/**",
+    ]
     actions = [
       "logs:CreateLogStream",
       "logs:PutLogEvents",
@@ -52,16 +52,16 @@ data "aws_iam_policy_document" "sagemaker_execution" {
     ]
   }
   statement {
-    sid = "CloudwatchMetricsAccess"
-    effect = "Allow"
+    sid       = "CloudwatchMetricsAccess"
+    effect    = "Allow"
     resources = ["*"]
     actions = [
       "cloudwatch:PutMetricData"
     ]
   }
   statement {
-    sid = "EC2Access"
-    effect = "Allow"
+    sid       = "EC2Access"
+    effect    = "Allow"
     resources = ["*"]
     actions = [
       "ec2:CreateNetworkInterface",
@@ -76,8 +76,8 @@ data "aws_iam_policy_document" "sagemaker_execution" {
     ]
   }
   statement {
-    sid = "SageMakerAccess"
-    effect = "Allow"
+    sid       = "SageMakerAccess"
+    effect    = "Allow"
     resources = ["*"]
     actions = [
       "sagemaker:CreateModel",
@@ -110,8 +110,8 @@ data "aws_iam_policy_document" "sagemaker_execution" {
   }
 }
 
-resource "aws_iam_policy" "sagemaker_execution"{
-  name = "${var.md_metadata.name_prefix}-execution"
+resource "aws_iam_policy" "sagemaker_execution" {
+  name   = "${var.md_metadata.name_prefix}-execution"
   policy = data.aws_iam_policy_document.sagemaker_execution.json
 }
 
@@ -125,12 +125,12 @@ data "aws_iam_policy_document" "sagemaker_assume_role" {
   }
 }
 
-resource aws_iam_role_policy_attachment "attach_s3_read_policy" {
+resource "aws_iam_role_policy_attachment" "attach_s3_read_policy" {
   role       = aws_iam_role.sagemaker_execution.name
   policy_arn = var.s3_model_bucket.data.security.iam.read.policy_arn
 }
 
-resource aws_iam_role_policy_attachment "attach_s3_write_policy" {
+resource "aws_iam_role_policy_attachment" "attach_s3_write_policy" {
   role       = aws_iam_role.sagemaker_execution.name
   policy_arn = var.s3_model_bucket.data.security.iam.write.policy_arn
 }

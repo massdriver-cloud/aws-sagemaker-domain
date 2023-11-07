@@ -1,6 +1,6 @@
 resource "aws_security_group" "sagemaker_user" {
   vpc_id      = local.vpc_id
-  name        =  "${var.md_metadata.name_prefix}-sg"
+  name        = "${var.md_metadata.name_prefix}-sg"
   description = "AWS SageMaker ${var.md_metadata.name_prefix} security group"
   tags = merge(
     var.md_metadata.default_tags,

@@ -1,14 +1,35 @@
 schema: draft-07
 name: "aws-sagemaker-domain"
 description: "AWS SageMaker Domain and User Profile for SageMaker Studio AI Research Platform"
-source_url: github.com/YOUR_NAME_HERE/aws-sagemaker-domain
+source_url: github.com/massdriver-cloud/aws-sagemaker-inference-endpoint
 access: private
 type: "infrastructure"
 
-# schema-params.json
-# JSON Schema sans-fields above
 params:
-  properties: {}
+  examples:
+    - __name: Development
+      efs:
+        retention_policy: "Delete"
+    - __name: Production
+      efs:
+        retention_policy: "Retain"
+
+  required:
+    - efs
+  properties:
+    efs:
+      type: object
+      title: EFS Volume
+      required:
+        - retention_policy
+      properties:
+        retention_policy:
+          title: EFS Retention Policy
+          description: "The EFS Retention Policy. (e.g. Delete or Retain)"
+          type: string
+          enum:
+            - "Delete"
+            - "Retain"
 
 connections:
   required:
@@ -28,5 +49,4 @@ artifacts:
 
 ui:
   ui:order:
-    - user_profile_name
     - "*"
