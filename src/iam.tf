@@ -105,7 +105,7 @@ data "aws_iam_policy_document" "sagemaker_execution" {
       "sagemaker:CreateTransformJob",
       "sagemaker:DescribeTransformJob",
       "sagemaker:StopTransformJob",
-      "sagemaker:CreateNotebookInstance"
+      "sagemaker:*"
     ]
   }
 }
