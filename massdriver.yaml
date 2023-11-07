@@ -1,9 +1,9 @@
 schema: draft-07
-name: "aws-sagemaker-domain"
+name: aws-sagemaker-domain
 description: "AWS SageMaker Domain and User Profile for SageMaker Studio AI Research Platform"
 source_url: github.com/massdriver-cloud/aws-sagemaker-inference-endpoint
-access: private
-type: "infrastructure"
+access: public
+type: infrastructure
 
 params:
   examples:
