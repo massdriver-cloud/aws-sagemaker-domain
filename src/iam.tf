@@ -108,6 +108,17 @@ data "aws_iam_policy_document" "sagemaker_execution" {
       "sagemaker:*"
     ]
   }
+  statement {
+    sid    = "S3ReadAccess"
+    effect = "Allow"
+    actions = [
+      "s3:GetObject",
+      "s3:ListBucket",
+    ]
+    resources = [
+      "*"
+    ]
+  }
 }
 
 resource "aws_iam_policy" "sagemaker_execution" {
