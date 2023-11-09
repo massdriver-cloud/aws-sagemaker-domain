@@ -308,8 +308,6 @@ Resources created by this bundle that can be connected to other bundles.
 <summary>View</summary>
 
 <!-- ARTIFACTS:START -->
-## Properties
-
 <!-- ARTIFACTS:END -->
 
 </details>

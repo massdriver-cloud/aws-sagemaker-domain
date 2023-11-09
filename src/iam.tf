@@ -39,6 +39,21 @@ data "aws_iam_policy_document" "sagemaker_execution" {
     ]
   }
   statement {
+    sid    = "KMSEncryption"
+    effect = "Allow"
+    resources = [
+      module.kms.key_arn
+    ]
+    actions = [
+      "kms:Decrypt",
+      "kms:Encrypt",
+      "kms:ReEncrypt*",
+      "kms:GenerateDataKey*",
+      "kms:DescribeKey",
+      "kms:CreateGrant"
+    ]
+  }
+  statement {
     sid    = "CloudwatchLogsAccess"
     effect = "Allow"
     resources = [

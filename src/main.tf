@@ -7,7 +7,7 @@ resource "aws_sagemaker_domain" "main" {
   auth_mode   = "IAM"
   vpc_id      = local.vpc_id
   subnet_ids  = local.private_subnet_ids
-  kms_key_id     = module.kms.key_arn
+  kms_key_id  = module.kms.key_arn
   retention_policy {
     home_efs_file_system = var.efs.retention_policy
   }
