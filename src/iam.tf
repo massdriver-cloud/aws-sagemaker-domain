@@ -12,7 +12,7 @@ data "aws_iam_policy_document" "sagemaker_execution" {
     sid       = "PassRole"
     effect    = "Allow"
     actions   = ["iam:PassRole"]
-    resources = ["*"]
+    resources = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/*"]
     condition {
       test     = "StringEquals"
       variable = "iam:PassedToService"
@@ -69,7 +69,7 @@ data "aws_iam_policy_document" "sagemaker_execution" {
   statement {
     sid       = "CloudwatchMetricsAccess"
     effect    = "Allow"
-    resources = ["*"]
+    resources = ["arn:aws:logs:${var.vpc.specs.aws.region}:${data.aws_caller_identity.current.account_id}:log-group:/aws/sagemaker/*"]
     actions = [
       "cloudwatch:PutMetricData"
     ]
@@ -77,7 +77,7 @@ data "aws_iam_policy_document" "sagemaker_execution" {
   statement {
     sid       = "EC2Access"
     effect    = "Allow"
-    resources = ["*"]
+    resources = ["arn:aws:ec2:${var.vpc.specs.aws.region}:${data.aws_caller_identity.current.account_id}:*/*"]
     actions = [
       "ec2:CreateNetworkInterface",
       "ec2:DescribeNetworkInterfaces",
@@ -93,7 +93,7 @@ data "aws_iam_policy_document" "sagemaker_execution" {
   statement {
     sid       = "SageMakerAccess"
     effect    = "Allow"
-    resources = ["*"]
+    resources = ["arn:aws:sagemaker:${var.vpc.specs.aws.region}:${data.aws_caller_identity.current.account_id}:*/*"]
     actions = [
       "sagemaker:CreateModel",
       "sagemaker:CreateApp",
@@ -131,7 +131,8 @@ data "aws_iam_policy_document" "sagemaker_execution" {
       "s3:ListBucket",
     ]
     resources = [
-      "*"
+      "arn:aws:s3:::jumpstart-cache-prod-${var.vpc.specs.aws.region}",
+      "arn:aws:s3:::jumpstart-cache-prod-${var.vpc.specs.aws.region}/*"
     ]
   }
 }

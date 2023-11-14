@@ -1,4 +1,3 @@
-
 // Policy from https://docs.aws.amazon.com/efs/latest/ug/encryption-at-rest.html
 data "aws_iam_policy_document" "efs" {
   statement {
