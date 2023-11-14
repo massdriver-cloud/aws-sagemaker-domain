@@ -4,7 +4,7 @@ data "aws_iam_policy_document" "efs" {
     sid = "Allow access to EFS for all principals in the account that are authorized to use EFS"
     principals {
       type        = "AWS"
-      identifiers = ["*"]
+      identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"]
     }
     effect = "Allow"
     actions = [
@@ -15,7 +15,7 @@ data "aws_iam_policy_document" "efs" {
       "kms:CreateGrant",
       "kms:DescribeKey"
     ]
-    resources = ["*"]
+    resources = ["arn:aws:kms:${var.vpc.specs.aws.region}:${data.aws_caller_identity.current.account_id}:key/*"]
     condition {
       test     = "StringLike"
       variable = "kms:ViaService"
@@ -36,7 +36,7 @@ data "aws_iam_policy_document" "efs" {
     }
     effect    = "Allow"
     actions   = ["kms:*"]
-    resources = ["*"]
+    resources = ["arn:aws:kms:${var.vpc.specs.aws.region}:${data.aws_caller_identity.current.account_id}:key/*"]
   }
 }
 
