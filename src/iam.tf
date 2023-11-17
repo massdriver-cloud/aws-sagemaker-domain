@@ -152,6 +152,12 @@ data "aws_iam_policy_document" "sagemaker_assume_role" {
   }
 }
 
+
+resource "aws_iam_role_policy_attachment" "sagemaker_full_access" {
+  role       = aws_iam_role.sagemaker_execution.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSageMakerFullAccess"
+}
+
 resource "aws_iam_role_policy_attachment" "attach_s3_read_policy" {
   role       = aws_iam_role.sagemaker_execution.name
   policy_arn = var.s3_model_bucket.data.security.iam.read.policy_arn
