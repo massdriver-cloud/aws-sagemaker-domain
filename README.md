@@ -53,7 +53,7 @@ Form input parameters for configuring a bundle for deployment.
 ## Properties
 
 - **`efs`** *(object)*
-  - **`retention_policy`** *(string)*: The EFS Retention Policy. (e.g. Delete or Retain). Must be one of: `['Delete', 'Retain']`.
+  - **`retention_policy`** *(string)*: The EFS Retention Policy. This determines what happens to the EFS volume when this bundle is decommissioned. (e.g. Delete or Retain). Must be one of: `['Delete', 'Retain']`.
 ## Examples
 
   ```json
