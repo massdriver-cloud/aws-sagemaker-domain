@@ -25,7 +25,7 @@ params:
       properties:
         retention_policy:
           title: EFS Retention Policy
-          description: "The EFS Retention Policy. (e.g. Delete or Retain)"
+          description: "The EFS Retention Policy. This determines what happens to the EFS volume when this bundle is decommissioned. (e.g. Delete or Retain)""
           type: string
           enum:
             - "Delete"
