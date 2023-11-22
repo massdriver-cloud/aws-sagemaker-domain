@@ -1,0 +1,51 @@
+schema: draft-07
+name: aws-sagemaker-domain
+description: "AWS SageMaker Domain and User Profile for SageMaker Studio AI Research Platform"
+source_url: github.com/massdriver-cloud/aws-sagemaker-inference-endpoint
+access: public
+type: infrastructure
+
+params:
+  examples:
+    - __name: Development
+      efs:
+        retention_policy: "Delete"
+    - __name: Production
+      efs:
+        retention_policy: "Retain"
+
+  required:
+    - efs
+  properties:
+    efs:
+      type: object
+      title: EFS Volume
+      required:
+        - retention_policy
+      properties:
+        retention_policy:
+          title: EFS Retention Policy
+          description: "The EFS Retention Policy. This determines what happens to the EFS volume when this bundle is decommissioned. (e.g. Delete or Retain)"
+          type: string
+          enum:
+            - "Delete"
+            - "Retain"
+
+connections:
+  required:
+  - aws_authentication
+  - s3_model_bucket
+  - vpc
+  properties:
+    aws_authentication:
+      $ref: massdriver/aws-iam-role
+    s3_model_bucket:
+      $ref: massdriver/aws-s3-bucket
+    vpc:
+      $ref: massdriver/aws-vpc
+
+artifacts: {}
+
+ui:
+  ui:order:
+    - "*"
