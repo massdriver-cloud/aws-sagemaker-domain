@@ -17,7 +17,7 @@ AWS SageMaker Domain and User Profile for SageMaker Studio AI Research Platform
 
 ## Design
 
-For detailed information, check out our [Operator Guide](operator.mdx) for this bundle.
+For detailed information, check out our [Operator Guide](operator.md) for this bundle.
 
 ## Usage
 
