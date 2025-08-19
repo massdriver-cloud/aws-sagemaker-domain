@@ -3,7 +3,6 @@ name: aws-sagemaker-domain
 version: 1.0.0
 description: AWS SageMaker Domain and User Profile for SageMaker Studio AI Research Platform
 source_url: https://github.com/massdriver-cloud/aws-sagemaker-domain
-type: application
 params:
   examples:
   - __name: Development
